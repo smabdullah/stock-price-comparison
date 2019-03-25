@@ -19,55 +19,26 @@ df_apple = pd.read_csv('AAPL.csv')
 df_amazon = pd.read_csv('AMZN.csv')
 df_google = pd.read_csv('GOOG.csv')
 
+company_name = ['Apple', 'Amazon', 'Google']
+company_df = [df_apple, df_amazon, df_google]
+color = ['#f4ad42', '#42f4d9', '#8042f4']
 
-trace_apple = go.Scatter(
-        x = df_apple['Date'],
-        y = df_apple['High'],
-        name = 'Apple Stock price',
+data = [go.Scatter(
+        x = company_df[i]['Date'],
+        y = company_df[i]['High'],
+        name = '{} Stock price'.format(company_name[i]),
         mode = 'lines',
         opacity = 0.8,
         line = {
                     'width':3,
-                    'color': '#f4ad42'
+                    'color': color[i]
                 },
         marker = {
                     'size': 15,
                     'line': {'width': 0.5, 'color': 'white'}
                 }
         )
-
-trace_amazon = go.Scatter(
-        x = df_amazon['Date'],
-        y = df_amazon['High'],
-        name = 'Amazon Stock price',
-        mode = 'lines',
-        opacity = 0.8,
-        line = {
-                    'width':3,
-                    'color': '#42f4e2'
-                },
-        marker = {
-                    'size': 15,
-                    'line': {'width': 0.5, 'color': 'white'}
-                }
-        )
-
-trace_google = go.Scatter(
-        x = df_google['Date'],
-        y = df_google['High'],
-        name = 'Google Stock price',
-        mode = 'lines',
-        opacity = 0.8,
-        line = {
-                    'width':3,
-                    'color': '#f4428c'
-                },
-        marker = {
-                    'size': 15,
-                    'line': {'width': 0.5, 'color': 'white'}
-                }
-        )
-
+        for i in range(len(company_name))]
 
 layout = go.Layout(
                 xaxis={'type': 'date', 'title': 'Time'},
@@ -84,7 +55,7 @@ app.layout = html.Div([
     dcc.Graph(
         id='life-exp-vs-gdp',
         figure={
-            'data': [trace_apple, trace_amazon, trace_google],
+            'data': data,
             'layout': layout
         }
     )
