@@ -23,40 +23,36 @@ company_name = ['Apple', 'Amazon', 'Google']
 company_df = [df_apple, df_amazon, df_google]
 color = ['#f4ad42', '#42f4d9', '#8042f4']
 
-data_stock = [go.Scatter(
-        x = company_df[i]['Date'],
-        y = company_df[i]['High'],
-        name = '{} Stock price'.format(company_name[i]),
-        mode = 'lines',
-        opacity = 0.8,
-        line = {
-                    'width':3,
-                    'color': color[i]
-                },
-        marker = {
-                    'size': 15,
-                    'line': {'width': 0.5, 'color': 'white'}
-                }
-        )
-        for i in range(len(company_name))]
-
-layout_stock = go.Layout(
-                xaxis={'type': 'date', 'title': 'Time'},
-                yaxis={'title': 'High price'},
-                margin={'l': 50, 'b': 40, 't': 40, 'r': 10},
-                legend={'x': 0, 'y': 1, 'orientation':'h'},
-                hovermode='closest',
-                title = {
-                        'text': 'Mar 25, 2015 to Mar 25, 2019 -- Stock Price Comparison'
-                        }
-            )
-
 app.layout = html.Div([
     dcc.Graph(
         id='stock-price',
         figure={
-            'data': data_stock,
-            'layout': layout_stock
+            'data': [go.Scatter(
+                                x = company_df[i]['Date'],
+                                y = company_df[i]['High'],
+                                name = '{} Stock price'.format(company_name[i]),
+                                mode = 'lines',
+                                opacity = 0.8,
+                                line = {
+                                        'width':3,
+                                        'color': color[i]
+                                        },
+                                marker = {
+                                        'size': 15,
+                                        'line': {'width': 0.5, 'color': 'white'}
+                                        }
+                                )for i in range(len(company_name))
+                    ],
+            'layout': go.Layout(
+                                xaxis={'type': 'date', 'title': 'Time'},
+                                yaxis={'title': 'High price'},
+                                margin={'l': 50, 'b': 40, 't': 40, 'r': 10},
+                                legend={'x': 0, 'y': 1, 'orientation':'h'},
+                                hovermode='closest',
+                                title = {
+                                            'text': 'Mar 25, 2015 to Mar 25, 2019 -- Stock Price Comparison'
+                                        }
+                                )
         }
     )
 ])
