@@ -24,10 +24,25 @@ company_df = [df_apple, df_amazon, df_google]
 color = ['#f4ad42', '#42f4d9', '#8042f4']
 
 app.layout = html.Div([
-    dcc.Graph(
-        id='stock-price',
-        figure={
-            'data': [go.Scatter(
+    html.Div([
+            html.Label('Price comparison indicator'),
+            dcc.RadioItems(
+                    options=[
+                            {'label': 'Open', 'value': 0},
+                            {'label': 'High', 'value': 1},
+                            {'label': 'Low', 'value': 2},
+                            {'label': 'Close', 'value': 3},
+                            {'label': 'Adj close', 'value': 4}
+                    ],
+                    value=3,
+                    labelStyle = {'display': 'inline-block'}
+            )
+    ]),
+    html.Div([
+            dcc.Graph(
+                    id='stock-price',
+                    figure={
+                            'data': [go.Scatter(
                                 x = company_df[i]['Date'],
                                 y = company_df[i]['High'],
                                 name = '{} Stock price'.format(company_name[i]),
@@ -42,8 +57,8 @@ app.layout = html.Div([
                                         'line': {'width': 0.5, 'color': 'white'}
                                         }
                                 )for i in range(len(company_name))
-                    ],
-            'layout': go.Layout(
+                        ],
+                            'layout': go.Layout(
                                 xaxis={'type': 'date', 'title': 'Time'},
                                 yaxis={'title': 'High price'},
                                 margin={'l': 50, 'b': 40, 't': 40, 'r': 10},
@@ -53,8 +68,9 @@ app.layout = html.Div([
                                             'text': 'Mar 25, 2015 to Mar 25, 2019 -- Stock Price Comparison'
                                         }
                                 )
-        }
-    )
+                        }
+                    )
+            ])
 ])
     
 if __name__ == '__main__':
