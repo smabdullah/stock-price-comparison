@@ -23,7 +23,7 @@ company_name = ['Apple', 'Amazon', 'Google']
 company_df = [df_apple, df_amazon, df_google]
 color = ['#f4ad42', '#42f4d9', '#8042f4']
 
-data = [go.Scatter(
+data_stock = [go.Scatter(
         x = company_df[i]['Date'],
         y = company_df[i]['High'],
         name = '{} Stock price'.format(company_name[i]),
@@ -40,7 +40,7 @@ data = [go.Scatter(
         )
         for i in range(len(company_name))]
 
-layout = go.Layout(
+layout_stock = go.Layout(
                 xaxis={'type': 'date', 'title': 'Time'},
                 yaxis={'title': 'High price'},
                 margin={'l': 50, 'b': 40, 't': 40, 'r': 10},
@@ -53,10 +53,10 @@ layout = go.Layout(
 
 app.layout = html.Div([
     dcc.Graph(
-        id='life-exp-vs-gdp',
+        id='stock-price',
         figure={
-            'data': data,
-            'layout': layout
+            'data': data_stock,
+            'layout': layout_stock
         }
     )
 ])
