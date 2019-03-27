@@ -20,20 +20,20 @@ df_apple = pd.read_csv('AAPL.csv')
 df_amazon = pd.read_csv('AMZN.csv')
 df_google = pd.read_csv('GOOG.csv')
 
+# converting the 'Date' column to pandas datetime to extract year
+df_apple['Date'] = pd.to_datetime(df_apple['Date'])
+df_amazon['Date'] = pd.to_datetime(df_amazon['Date'])
+df_google['Date'] = pd.to_datetime(df_google['Date'])
+
+# add a new column 'Year' to each data frame
+df_apple['Year'] = df_apple['Date'].dt.year
+df_amazon['Year'] = df_amazon['Date'].dt.year
+df_google['Year'] = df_google['Date'].dt.year
+
 company_name = ['Apple', 'Amazon', 'Google']
 company_df = [df_apple, df_amazon, df_google]
 color = ['#f4ad42', '#42f4d9', '#8042f4']
 columns = ['','Open','High','Low','Close','Adj close']
-
-bar_trace = []
-
-for i in range(len(company_name)):
-    bar_trace.append(go.Bar(
-                    x = company_df[i]['Date'],
-                    y = company_df[i]['Volume'],
-                    name = '{}'.format(company_name[i])
-            )                    
-    )
 
 app.layout = html.Div([
     html.Div([
@@ -54,15 +54,23 @@ app.layout = html.Div([
             
     html.Div([dcc.Graph(id='stock_price')]),
     
-    html.Div([dcc.Graph(
-                id = 'bar_chart',
-                figure = {
-                    'data': bar_trace,
-                    'layout': go.Layout(
-                            barmode = 'group'
-                    )
-                }
+    html.Div([
+            html.Label('Choose a year'),
+            dcc.RadioItems(
+                    id = 'volume_year',
+                    options=[
+                            {'label': '2015', 'value': 2015},
+                            {'label': '2016', 'value': 2016},
+                            {'label': '2017', 'value': 2017},
+                            {'label': '2018', 'value': 2018},
+                            {'label': '2019', 'value': 2019}
+                    ],
+                    value=2018,
+                    labelStyle = {'display': 'inline-block'}
             )
+    ]),
+    
+    html.Div([dcc.Graph(id = 'bar_chart')
             
     ])
 ])
@@ -99,6 +107,32 @@ def update_figure(df_index):
                     legend={'x': 0, 'y': 1, 'orientation':'h'},
                     hovermode='closest'
             )
+    }
+    
+@app.callback(
+        Output('bar_chart', 'figure'),
+        [Input('volume_year', 'value')])
+def update_bar(year):
+    bar_trace = []
+    for i in range(len(company_name)):
+        bar_trace.append(go.Bar(
+                    x = company_df[i].loc[company_df[i]['Year'] == year, 'Date'],
+                    y = company_df[i].loc[company_df[i]['Year'] == year, 'Volume'],
+                    name = '{}'.format(company_name[i]),
+                    opacity = 0.8,
+                    marker = {'color': color[i]}
+            )                    
+    )
+    
+    return {
+        'data': bar_trace,
+        'layout': go.Layout(
+                    barmode = 'group',
+                    xaxis = {'type': 'date', 'title': 'Time in year'},
+                    yaxis = {'type': 'log', 'title': 'Volume in log scale'},
+                    margin = {'l': 50, 'b': 40, 't': 40, 'r': 10},
+                    hovermode = 'closest'
+                )        
     }
 
 if __name__ == '__main__':
