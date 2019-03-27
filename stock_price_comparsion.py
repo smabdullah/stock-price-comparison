@@ -16,6 +16,8 @@ external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 
+server = app.server
+
 df_apple = pd.read_csv('AAPL.csv')
 df_amazon = pd.read_csv('AMZN.csv')
 df_google = pd.read_csv('GOOG.csv')
