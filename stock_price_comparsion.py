@@ -25,6 +25,16 @@ company_df = [df_apple, df_amazon, df_google]
 color = ['#f4ad42', '#42f4d9', '#8042f4']
 columns = ['','Open','High','Low','Close','Adj close']
 
+bar_trace = []
+
+for i in range(len(company_name)):
+    bar_trace.append(go.Bar(
+                    x = company_df[i]['Date'],
+                    y = company_df[i]['Volume'],
+                    name = '{}'.format(company_name[i])
+            )                    
+    )
+
 app.layout = html.Div([
     html.Div([
             html.Label('Price comparison indicator'),
@@ -41,7 +51,20 @@ app.layout = html.Div([
                     labelStyle = {'display': 'inline-block'}
             )
     ]),
-    html.Div([dcc.Graph(id='stock_price')])
+            
+    html.Div([dcc.Graph(id='stock_price')]),
+    
+    html.Div([dcc.Graph(
+                id = 'bar_chart',
+                figure = {
+                    'data': bar_trace,
+                    'layout': go.Layout(
+                            barmode = 'group'
+                    )
+                }
+            )
+            
+    ])
 ])
 
 @app.callback(
