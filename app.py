@@ -42,9 +42,9 @@ columns = ['','Open','High','Low','Close','Adj close']
 app.layout = html.Div([
     html.Div([html.H1('A web-based Python visulasition for historical stock data'),
               html.P('The following scatter plot displays different prices (open, close and others) based on the user\'s choice')
-            ]),
+            ], style = {'margin-left': '10px'}),
 
-    html.Div([html.Label(['Choose a price comparison indicator']),
+    html.Div([html.Label(['Choose a price comparison indicator'], style = {'font-weight': 'bold'}),
             dcc.RadioItems(id = 'radio_stock',
                     options=[
                             {'label': 'Open', 'value': 1},
@@ -56,15 +56,15 @@ app.layout = html.Div([
                     value=4,
                     labelStyle = {'display': 'inline-block'}
             )
-    ]),
+    ], style = {'margin-left': '10px'}),
             
     html.Div([dcc.Graph(id='stock_price')]),
     
     html.Div([html.P('The following bar-chart displays the volume of sale in a particular year')
-            ]),
+            ], style = {'margin-left': '10px'}),
     
     html.Div([
-            html.Label('Choose a year'),
+            html.Label(['Choose a year'], style = {'font-weight': 'bold'}),
             dcc.RadioItems(
                     id = 'volume_year',
                     options=[
@@ -77,12 +77,12 @@ app.layout = html.Div([
                     value=2018,
                     labelStyle = {'display': 'inline-block'}
             )
-    ]),
+    ], style = {'margin-left': '10px'}),
     
     html.Div([dcc.Graph(id = 'bar_chart')
             
     ])
-])
+], style = {'background-color': 'lightGray'})
 
 @app.callback(
         Output('stock_price', 'figure'),
@@ -113,8 +113,9 @@ def update_figure(df_index):
                     xaxis={'type': 'date', 'title': 'Time'},
                     yaxis={'title': '{} price'.format(columns[df_index])},
                     margin={'l': 50, 'b': 40, 't': 40, 'r': 10},
-                    legend={'x': 0, 'y': 1, 'orientation':'h'},
-                    hovermode='closest'
+                    legend={'x': 0, 'y': 1, 'orientation':'h', 'bgcolor': 'rgba(255,0,0,0)'},
+                    hovermode='closest',
+                    plot_bgcolor='lavender'
             )
     }
     
@@ -139,8 +140,10 @@ def update_bar(year):
                     barmode = 'group',
                     xaxis = {'type': 'date', 'title': 'Time in year'},
                     yaxis = {'type': 'log', 'title': 'Volume in log scale'},
+                    legend={'x': 0, 'y': 1, 'orientation':'h', 'bgcolor': 'rgba(255,0,0,0)'},
                     margin = {'l': 50, 'b': 40, 't': 40, 'r': 10},
-                    hovermode = 'closest'
+                    hovermode = 'closest',
+                    plot_bgcolor='lavender'
                 )        
     }
     
