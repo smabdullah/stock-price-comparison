@@ -15,9 +15,11 @@ import plotly.graph_objs as go
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
+#app = dash.Dash(__name__)
 
 server = app.server
 
+# reading data from the csv files
 df_apple = pd.read_csv('AAPL.csv')
 df_amazon = pd.read_csv('AMZN.csv')
 df_google = pd.read_csv('GOOG.csv')
@@ -38,10 +40,12 @@ color = ['#f4ad42', '#42f4d9', '#8042f4']
 columns = ['','Open','High','Low','Close','Adj close']
 
 app.layout = html.Div([
-    html.Div([
-            html.Label('Price comparison indicator'),
-            dcc.RadioItems(
-                    id = 'radio_stock',
+    html.Div([html.H1('A web-based Python visulasition for historical stock data'),
+              html.P('The following scatter plot displays different prices (open, close and others) based on the user\'s choice')
+            ]),
+
+    html.Div([html.Label(['Choose a price comparison indicator']),
+            dcc.RadioItems(id = 'radio_stock',
                     options=[
                             {'label': 'Open', 'value': 1},
                             {'label': 'High', 'value': 2},
@@ -55,6 +59,9 @@ app.layout = html.Div([
     ]),
             
     html.Div([dcc.Graph(id='stock_price')]),
+    
+    html.Div([html.P('The following bar-chart displays the volume of sale in a particular year')
+            ]),
     
     html.Div([
             html.Label('Choose a year'),
@@ -136,6 +143,16 @@ def update_bar(year):
                     hovermode = 'closest'
                 )        
     }
+    
+# external stylesheet (css)
+'''external_css = ["https://fonts.googleapis.com/icon?family=Material+Icons", "https://code.getmdl.io/1.3.0/material.indigo-pink.min.css"]
+for css in external_css:
+    app.css.append_css({'external_url': css})
+    
+# external javascript file
+external_js = ["https://code.getmdl.io/1.3.0/material.min.js"]
+for js in external_js:
+    app.scripts.append_script({'external_url': js})'''
 
 if __name__ == '__main__':
     app.run_server(debug=True)
