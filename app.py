@@ -3,6 +3,7 @@
 Created on Mon Mar 25 15:20:41 2019
 
 @author: SM Abdullah
+@email: sma.csedu@gmail.com
 """
 import os
 import dash
