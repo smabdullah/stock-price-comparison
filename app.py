@@ -41,7 +41,7 @@ color = ['#f4ad42', '#42f4d9', '#8042f4']
 columns = ['','Open','High','Low','Close','Adj close']
 
 app.layout = html.Div([
-    html.Div([html.H1('A web-based Python visulasition for historical stock data'),
+    html.Div([html.H1('A web-based Python visualisation for historical stock data'),
               html.P('The following scatter plot displays different prices (open, close and others) based on the user\'s choice')
             ], style = {'margin-left': '10px'}),
 
