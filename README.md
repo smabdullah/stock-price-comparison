@@ -1,6 +1,10 @@
 # Stock price comparison using Ploylt-Dash
 
-This data visulasition project is simple but complex enough to understand how to use ploylt and dash to build interactive web application. You can interact with the generated visulisation in [this link](https://stock-price-dash.herokuapp.com/). By checking the code of this application, you can learn the following topics.
+This data visulasition project is simple but complex enough to understand how to use ploylt and dash to build interactive web application. You can interact with the generated visulisation in [this link](https://stock-price-dash.herokuapp.com/). 
+
+## Use the app: [https://stock-price-dash.herokuapp.com/](https://stock-price-dash.herokuapp.com/)
+
+By checking the code of this application, you can learn the following topics.
 
 1. How to use Dash
 2. How to incorporate plotly graph object in Dash
